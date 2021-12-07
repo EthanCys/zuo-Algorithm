@@ -1,0 +1,35 @@
+def CountIslands(m):
+    if m == 0 or m[0] == None:
+        return 0
+    result = 0
+    row = len(m)
+    collum = len(m[0])
+    for i in range(row):
+        for j in range(collum):
+            if m[i][j] == 1:
+                result += 1
+                infect(m, i, j, row, collum)
+    return result
+
+def infect(m, i, j, row, collum):
+    if i >= row or j >= collum or i < 0 or j < 0 or m[i][j] != 1:
+        return
+    m[i][j] = 2
+    infect(m, i - 1, j, row, collum)
+    infect(m, i + 1, j, row, collum)
+    infect(m, i, j + 1, row, collum)
+    infect(m, i, j - 1, row, collum)
+
+if __name__ == '__main__':
+    m1 = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]
+    print('Island number', CountIslands(m1))
