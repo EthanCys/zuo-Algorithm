@@ -1,0 +1,41 @@
+class Element:
+    def __init__(self, v):
+        self.value = v
+class ElementSet:
+    # key : v Value: Element v
+    elementMap = {}
+    # key : Element v Value: Father Element
+    fatherMap = {}
+    # key : the represent Element of a set Value: size
+    sizeMap = {}
+    def __init__(self, list):
+        for value in list:
+            element = Element(value)
+            elementMap.update(value, element)
+            fatherMap.update(element, element)
+            sizeMap.update(element, 1)
+# is sample a and b the same set
+def UnionFind(a, b):
+    if elementMap.get(a) and elementMap.get(b):
+        return findHead(elementMap.get(a)) == findHead(elementMap.get(b))
+    return False
+
+def Union(a, b):
+    if elementMap.get(a) and elementMap.get(b):
+        af = findHead(elementMap.get(a))
+        bf = findHead(elementMap.get(b))
+        if af != bf:
+            bigger = af if sizeMap.get(af) > sizeMap.get(bf) else bf
+            smaller = bf if bigger == af else af
+            fatherMap.update(smaller, bigger)
+            sizeMap.update(bigger, sizeMap.get(bigger) + sizeMap.get(smaller))
+            del sizeMap[smaller]
+
+def findHead(element):
+    path = []
+    while element != fatherMap.get(element):
+        path.append(element)
+        element = fatherMap.get(element)
+    while len(path) != 0:
+        fatherMap.update(path.pop(), element)
+    return element
